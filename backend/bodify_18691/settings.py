@@ -13,7 +13,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import environ
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env()
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
@@ -208,3 +212,5 @@ FCM_DJANGO_SETTINGS = {
 if DEBUG:
     # output email to console instead of sending
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+EMAIL_FROM = env.str('EMAIL_FROM', default='')
