@@ -26,3 +26,14 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
+
+
+class Closet(models.Model):
+    product_id = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    rating = models.CharField(max_length=200)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='user_closet')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product_id

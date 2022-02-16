@@ -6,7 +6,8 @@ from rest_framework.generics import *
 from rest_auth.views import LoginView, PasswordChangeView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
@@ -26,10 +27,15 @@ class CustomAuthToken(ObtainAuthToken):
         serializer = self.serializer_class(
             data=request.data, context={"request": request}
         )
+        print(request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
         user_serializer = UserSerializerForToken(user)
+        #user = authenticate(request, username=request.data['username'], password=request.data['password'])
+        #login(request, user)
+        user.last_login = timezone.now()
+        user.save()
         return Response({"token": token.key, "user": user_serializer.data})
 
 
@@ -61,5 +67,31 @@ def users_list(request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ChangePasswordSerializer
+
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def change_password(request):
+    '''
+    Change the user password.
+    '''
+    serializer = ChangePasswordSerializer(
+        data=request.data,
+        context={'request': request},
+    )
+    serializer.is_valid(raise_exception=True)
+
+    user = request.user
+    user.set_password(serializer.validated_data['password'])
+    user.save()
+    return Response(_("Password changed successfully"))
 
 

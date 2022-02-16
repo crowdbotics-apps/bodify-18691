@@ -1,7 +1,7 @@
 import { StyleSheet, Image, View } from 'react-native';
 import React, {useEffect} from 'react';
 
-const NEXT_SCREEN_NAME = "Onboard1"
+const NEXT_SCREEN_NAME = "Login"
 
 export default function Splash({navigation}) {
   useEffect(() => {

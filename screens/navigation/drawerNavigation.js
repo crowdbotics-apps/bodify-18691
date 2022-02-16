@@ -9,6 +9,11 @@ import ManualMeasurement from '../user/manual_measurement';
 import PhotoMeasurement from '../user/photo_measurement';
 import Match from '../user/match';
 import Loading from '../user/loading';
+import Results from '../user/results';
+import Profile from '../user/profile';
+import PasswordReset from '../user/password-reset';
+import Closet from '../user/closet';
+import Privacy from '../user/privacy';
 
 const Drawer = createDrawerNavigator()
 export default function DrawerNavigation() {
@@ -22,6 +27,11 @@ export default function DrawerNavigation() {
         <Drawer.Screen name="PhotoMeasurement" component={PhotoMeasurement} />
         <Drawer.Screen name="Match" component={Match} />
         <Drawer.Screen name="Load" component={Loading} />
+        <Drawer.Screen name="Results" component={Results} />
+        <Drawer.Screen name="Profile" component={Profile} />
+        <Drawer.Screen name="PasswordReset" component={PasswordReset} />
+        <Drawer.Screen name="Closet" component={Closet} />
+        <Drawer.Screen name="Privacy" component={Privacy} />
       </Drawer.Navigator>
     )
 }
