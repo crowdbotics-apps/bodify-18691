@@ -10,29 +10,29 @@ export default function Sidemenu({navigation}) {
                 <Image source= {require("../../assets/close.png")}/>
             </TouchableOpacity>
       <SafeAreaView style={styles.menu}>
-            <TouchableOpacity style={{flexDirection: 'row', marginBottom: 20}}>
+            <TouchableOpacity style={{flexDirection: 'row', marginBottom: 20}} >
                 <Image source= {require("../../assets/recom.png")}/>
                 <Text style={styles.menuItem}>My Recommendations</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{flexDirection: 'row', marginBottom: 20}}>
+            <TouchableOpacity style={{flexDirection: 'row', marginBottom: 20}} onPress={() => navigation.navigate('ManualMeasurement')}>
             <Image source= {require("../../assets/measure.png")}/>
                 <Text style={styles.menuItem}>My Measurements</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{flexDirection: 'row'}}>
+            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate('Profile')}>
             <Image source= {require("../../assets/profile.png")}/>
                 <Text style={styles.menuItem}>Profile</Text>
             </TouchableOpacity>
             
         </SafeAreaView>
 
-        <View style={{alignItems: 'flex-end', marginRight: 20, top: "30%"}}>
+        <View style={{alignItems: 'flex-end', marginRight: 20, top: "23%"}}>
             <TouchableOpacity >
                 <Text style={styles.menuItems}>Brands</Text>
             </TouchableOpacity>
             <TouchableOpacity >
                 <Text style={styles.menuItems}>Settings</Text>
             </TouchableOpacity>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
                 <Text style={styles.menuItems}>Privacy Policy</Text>
             </TouchableOpacity>
             <TouchableOpacity >

@@ -15,7 +15,7 @@ export default function Match({navigation}) {
         </View>
 
         <View style={styles.btn}>
-            <TouchableOpacity><Text style={styles.optionTab}>Show Me My Matches</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Results')}><Text style={styles.optionTab}>Show Me My Matches</Text></TouchableOpacity>
         </View>
     </View>
   );
