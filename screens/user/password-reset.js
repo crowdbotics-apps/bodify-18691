@@ -23,55 +23,10 @@ export default function PasswordReset({ navigation }) {
 
   const handleManual = () => {
     //navigation.navigate("Match")
-    //console.log(data)
-    let body = JSON.stringify({
-      old_password: data.current,
-      password: data.new,
-      password2: data.confirm_new
-    })
-    console.log(body)
-
-    fetch(`${BASE_URL}/api/users/change_password/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    })
-      .then(res => {
-        if  (res.ok) {
-            Alert.alert("Success!", "Password changed successfully.", [
-                { text: "Okay" }
-              ])
-          return res.json();
-        } else {
-          Alert.alert("Sorry!", "Unable to change password.", [
-            { text: "Okay" }
-          ])
-          throw res.json();
-        }
-      })
-      .then(json => {
-        //navigation.navigate("Match");
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    console.log(data)
+    
   };
 
-  const handlePassword = () => {
-      console.log(data)
-      //console.log('hit')
-  }
-
-  const handlePass = (val) => {
-    if(data.new != val) {
-        setErrors("Password does not match")
-        
-    } else {
-        setErrors(null)
-    }
-}
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <SafeAreaView>

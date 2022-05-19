@@ -6,17 +6,24 @@ from rest_framework.generics import *
 from rest_auth.views import LoginView, PasswordChangeView
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_auth.registration.views import SocialLoginView, SocialConnectView
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
-from .serializers import ChangePasswordSerializer, UserSerializerForToken
 from rest_framework.viewsets import ModelViewSet, ViewSet
-from .serializers import SignupSerializer, UserSerializer
-from users.models import User
+from .serializers import *
+from users.models import *
 
-# Create your views here.
+
+
+class AccountRegistration(CreateAPIView):
+    serializer_class = AccountSignupSerializer
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+
 
 class CustomAuthToken(ObtainAuthToken):
     authentication_classes = []
@@ -39,59 +46,79 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({"token": token.key, "user": user_serializer.data})
 
 
-@api_view(['POST',])
-def signup_view(request):
-
-    if request.method == 'POST':
-        serializer = SignupSerializer(data=request.data)
-        data = {}
-        if serializer.is_valid():
-            user = serializer.save()
-            data['response'] = 'successfully registered a new user'
-            data['email'] = user.email
-            data['first_name'] = user.first_name
-            data['username'] = user.username
-            data['last_name'] = user.last_name
-            data['dob'] = user.dob
-        else:
-            data = serializer.errors
-        return Response(data)
-
-
-@api_view(['GET',])
-def users_list(request):
-    """
-    List all Bodify users
-    """
-    if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
-
-
-class ChangePasswordView(generics.UpdateAPIView):
-
+class AuthAccountProfileDetails(RetrieveUpdateAPIView):
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.all()
-    permission_classes = (IsAuthenticated,)
-    serializer_class = ChangePasswordSerializer
+    serializer_class = AuthAccountProfileSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.get_queryset(), pk=self.request.user.pk)
 
 
+class CustomSocialLoginView(SocialLoginView):
+    authentication_classes = []
+    permission_classes = []
 
-@api_view(['POST'])
-@permission_classes([permissions.AllowAny])
-def change_password(request):
-    '''
-    Change the user password.
-    '''
-    serializer = ChangePasswordSerializer(
-        data=request.data,
-        context={'request': request},
-    )
-    serializer.is_valid(raise_exception=True)
+    def process_login(self):
+        super(CustomSocialLoginView, self).process_login()
+        if 'user_type' in self.request.data:
+            user_type = self.request.data.get('user_type')
+            user = self.user
+            if user_type:
+                user.user_type = user_type
+                try:
+                    user.save()
+                except Exception as e:
+                    print(e)
 
-    user = request.user
-    user.set_password(serializer.validated_data['password'])
-    user.save()
-    return Response(_("Password changed successfully"))
+    # def post(self, request, *args, **kwargs):
+    #     super(CustomSocialLoginView, self).post(request, *args, **kwargs)
+    #     if 'user_type' in request.data:
+    #         user_type = request.data.get('user_type')
+    #         user = self.user
+    #         if user_type:
+    #             user.user_type = user_type
+    #             try:
+    #                 user.save()
+    #             except Exception as e:
+    #                 print(e)
+    #
+    #     return self.get_response()
 
 
+class GoogleLoginAPI(CustomSocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+
+class AccountPasswordReset(CreateAPIView):
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+    serializer_class = PasswordResetOTPSerializer
+    queryset = PasswordResetOTP.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(
+                {"detail": ("Password reset OTP sent to your email")},
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            {"detail": _("Failed to send OTP.")},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+class AccountPasswordResetConfirm(CreateAPIView):
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+    serializer_class = PasswordResetConfirmWithOTPSerializer
+    queryset = None
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        serializer = PasswordResetConfirmWithOTPSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'detail': 'Password resetted successfully.'})
+        return Response({'detail': 'Password reset failed.'}, status=status.HTTP_400_BAD_REQUEST)

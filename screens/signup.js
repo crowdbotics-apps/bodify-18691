@@ -3,11 +3,13 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { BASE_URL } from '../utils/http';
+import { signUp } from '../utils/redux/auth/actions';
+import { useDispatch } from 'react-redux'
 
 export default function Signup({navigation}) {
     const [errors, setErrors] = useState(null)
     const [show, setShow] = useState(false)
+    const dispatch = useDispatch()
     const [isTerms, setTerms] = useState(false);
     const [isPrivacy, setPrivacy] = useState(false);
     const [date, setDate] = useState(new Date())
@@ -102,39 +104,21 @@ export default function Signup({navigation}) {
             console.log(errors)
         } else {
         const formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-        let body = JSON.stringify({
-          'email': data.email.toLowerCase(),
-          'username': data.first_name.toLowerCase(),
-          'first_name': data.first_name,
-          'last_name': data.last_name,
-          'dob': formattedDate,
-          'password': data.password
-        })
-        console.log(body)
-    
-        fetch(`${BASE_URL}/api/users/signup/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: body
-        }).then(res => {
-          if(res.ok) {
-            return res.json()
-          } else {
-              Alert.alert('Sorry!', 'Account not created.', [{text: 'Okay'}])
-            throw res.json()
-          }
-        }).then(json => {
-           // Alert.alert('Success!', 'Account created successfully', [{text: 'Okay'}])
-            //navigation
-          navigation.navigate('SignupSuccess')
-          //setToken(json.token)
-          //signIn(token, json.user.email)
-        }).catch(error => {
-          console.log(error)
-        })
+        
+        dispatch(signUp({
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            //phone: '',
+            password: data.password,
+            user_type: 'customer',
+            profile: {
+              date_of_birth: formattedDate,
+              location: ''
+            }
+          }))
         }
+        
     }
 
   return (
