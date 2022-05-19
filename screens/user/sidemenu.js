@@ -1,9 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Image } from 'react-native';
-import React, {useContext} from 'react';
-import { AuthContext } from '../../utils/context';
+import React from 'react';
+import { logout } from '../../utils/redux/auth/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Sidemenu({navigation}) {
-    const {signOut} = useContext(AuthContext)
+    const dispatch = useDispatch()
+    const onLogout = () => {
+        dispatch(logout())
+      }
   return (
     <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={{ marginBottom: 20, top: 50, alignItems: 'flex-end', marginRight: 20}}>
@@ -35,14 +39,14 @@ export default function Sidemenu({navigation}) {
             <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
                 <Text style={styles.menuItems}>Privacy Policy</Text>
             </TouchableOpacity>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('Terms')}>
                 <Text style={styles.menuItems}>Terms of Use</Text>
             </TouchableOpacity>
             <TouchableOpacity >
                 <Text style={styles.menuItems}>FAQ</Text>
             </TouchableOpacity>
            
-            <TouchableOpacity onPress={() => signOut()}>
+            <TouchableOpacity onPress={() => onLogout()}>
                 <Text style={styles.menuItems}>Log Out</Text>
             </TouchableOpacity>
             

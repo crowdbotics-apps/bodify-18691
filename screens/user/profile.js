@@ -7,12 +7,17 @@ import {Picker} from '@react-native-picker/picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { BASE_URL } from '../../utils/http';
 import { useNavigation } from '@react-navigation/native';
-import { AuthContext } from '../../utils/context';
+import { logout } from '../../utils/redux/auth/actions'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 export default function Profile() {
     const navigation = useNavigation();
+    const dispatch = useDispatch()
+    const onLogout = () => {
+        dispatch(logout())
+      }
     const [show, setShow] = useState(false)
-    const {signOut} = useContext(AuthContext)
     const [filePath, setFilePath] = useState({})
     const [data, setData] = useState({
         first_name: '',
@@ -252,7 +257,8 @@ export default function Profile() {
                             }}
                             />
                         <View>
-                            <Text style={{marginLeft: 10, marginTop: 20, fontSize: 19}}>About Us</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('About')}>
+                            <Text style={{marginLeft: 10, marginTop: 20, fontSize: 19}}>About Us</Text></TouchableOpacity>
                             <Icon name="angle-right" size={20} color="#000" 
                                 style={{
                                     right: "5%",
@@ -270,7 +276,8 @@ export default function Profile() {
                             }}
                             />
                             <View>
-                            <Text style={{marginLeft: 10, marginTop: 20, fontSize: 19}}>Terms and Conditions</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('Terms')}>
+                            <Text style={{marginLeft: 10, marginTop: 20, fontSize: 19}}>Terms and Conditions</Text></TouchableOpacity>
                             <Icon name="angle-right" size={20} color="#000" 
                                 style={{
                                     right: "5%",
@@ -320,7 +327,7 @@ export default function Profile() {
                     marginTop: 10
                 }}
                 />
-                <TouchableOpacity onPress={() => signOut()}><Text style={{marginLeft: "28%", marginTop: 20, marginBottom: 20, fontSize: 19}}>Log Out</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => onLogout()}><Text style={{marginLeft: "28%", marginTop: 20, marginBottom: 20, fontSize: 19}}>Log Out</Text></TouchableOpacity>
                 <View
                 style={{
                     borderBottomColor: 'black',

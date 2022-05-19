@@ -1,7 +1,6 @@
 from django.urls import path, include
 from .views import *
 from rest_framework.routers import DefaultRouter
-from .views import *
 from users.api.v1.viewsets import (
     LoginViewSet,
 )
@@ -15,9 +14,11 @@ from users.api.v1.viewsets import (
 
 
 urlpatterns = [
-    path('login/', CustomAuthToken.as_view(), name='user_login'),
-    path('signup/', signup_view, name='user_signup'),
-    path('', users_list, name='users'),
-   # path('<int:pk>', user_detail, name='user_detail'),
-    path('change_password/', change_password, name='auth_change_password'),
+    path('login/token/', CustomAuthToken.as_view(), name='account_login'),
+    path('signup/', AccountRegistration.as_view(), name='account_registration'),
+    path('login/social/google/', GoogleLoginAPI.as_view(), name="google_login"),
+    path('profile/', AuthAccountProfileDetails.as_view(), name='auth_profile'),
+    path('password-reset/', AccountPasswordReset.as_view()),
+    path('password-reset/confirm/', AccountPasswordResetConfirm.as_view(), ),
+    #path('password/change/', AccountPasswordChange.as_view()),
 ]

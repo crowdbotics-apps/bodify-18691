@@ -52,6 +52,8 @@ LOCAL_APPS = [
     'home',
     'users.apps.UsersConfig',
     'measurements.apps.MeasurementsConfig',
+    'analytics.apps.AnalyticsConfig',
+    'feedback.apps.FeedbackConfig',
 ]
 THIRD_PARTY_APPS = [
     'rest_framework',
@@ -177,6 +179,34 @@ ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
 ACCOUNT_ALLOW_REGISTRATION = env.bool("ACCOUNT_ALLOW_REGISTRATION", True)
 SOCIALACCOUNT_ALLOW_REGISTRATION = env.bool("SOCIALACCOUNT_ALLOW_REGISTRATION", True)
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+        ],
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'apple': {
+        'app': {
+            'certificate_key': env.str('APPLE_CERTIFICATE_KEY', '')
+        }
+    }
+}
 
 REST_AUTH_SERIALIZERS = {
     # Replace password reset serializer to fix 500 error
@@ -191,10 +221,17 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 AUTH_USER_MODEL = "users.User"
 
 EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
-EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
-EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
+EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "apikey")
+EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "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")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', 'charles.apochi@crowdbotics.com')
+
+# twilio settings
+TWILIO_ACCOUNT_SID = env.str('TWILIO_ACCOUNT_SID', 'AC81dc3cff9afdeee63979c09d37dbde63')
+TWILIO_AUTH_TOKEN = env.str('TWILIO_AUTH_TOKEN', 'eabc7955e68b7f4ff949e964cc773e63')
+TWILIO_VERIFICATION_SERVICE_SID = env.str('TWILIO_VERIFICATION_SERVICE_SID', '')
 
 
 # AWS S3 config

@@ -10,6 +10,10 @@ import Signup from '../signup';
 import SignupSuccess from '../user/signupsuccess';
 import Login from '../login';
 import Home from '../user/home';
+import ForgotPassword from '../forgotPassword';
+import TokenInput from '../tokenInput';
+import PasswordReset from '../user/password-reset';
+import SetNewPassword from '../setPassword';
 
 
 
@@ -30,6 +34,10 @@ const Stack = createStackNavigator();
         <Stack.Screen name="SignupSuccess" component={SignupSuccess}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Home" component={Home}/>
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
+        <Stack.Screen name="TokenInput" component={TokenInput}/>
+        <Stack.Screen name="PasswordReset" component={PasswordReset}/>
+        <Stack.Screen name="SetPassword" component={SetNewPassword}/>
     </Stack.Navigator>
     );
     
