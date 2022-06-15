@@ -222,7 +222,7 @@ AUTH_USER_MODEL = "users.User"
 
 EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
 EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "apikey")
-EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "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")
+EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -267,5 +267,5 @@ SWAGGER_SETTINGS = {
 if DEBUG or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD):
     # output email to console instead of sending
     if not DEBUG:
-        logging.warning("You should setup `SENDGRID_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails.")
+        logging.warning("You should setup `_USERNAME` and `SENDGRID_PASSWORD` env vars to send emails.")
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
