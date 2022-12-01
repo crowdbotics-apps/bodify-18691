@@ -492,13 +492,15 @@
 			baseConfigurationReference = C6FB71599FD4EFE78D9BC70C /* Pods-bodify_18691.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = bodify_18691/bodify_18691.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 6YKR59QXKM;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 6YKR59QXKM;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = bodify_18691/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -513,6 +515,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.crowdbotics.still-tree-25047-e018d162";
 				PRODUCT_NAME = bodify_18691;
 				PROVISIONING_PROFILE_SPECIFIER = "Bodify Inc Provisioning Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Bodify Inc Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "bodify_18691-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -525,13 +528,15 @@
 			baseConfigurationReference = D41F7BEA3E8B9C679E4E2835 /* Pods-bodify_18691.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = bodify_18691/bodify_18691.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 6YKR59QXKM;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 6YKR59QXKM;
 				INFOPLIST_FILE = bodify_18691/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -545,6 +550,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.crowdbotics.still-tree-25047-e018d162";
 				PRODUCT_NAME = bodify_18691;
 				PROVISIONING_PROFILE_SPECIFIER = "Bodify Inc Provisioning Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Bodify Inc Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "bodify_18691-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

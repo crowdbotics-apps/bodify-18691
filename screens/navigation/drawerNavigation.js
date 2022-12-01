@@ -16,6 +16,7 @@ import Closet from '../user/closet';
 import Privacy from '../user/privacy';
 import Terms from '../user/terms';
 import About from '../user/about';
+import FAQ from '../user/faq';
 
 const Drawer = createDrawerNavigator()
 export default function DrawerNavigation() {
@@ -35,6 +36,7 @@ export default function DrawerNavigation() {
         <Drawer.Screen name="Closet" component={Closet} />
         <Drawer.Screen name="Privacy" component={Privacy} />
         <Drawer.Screen name="Terms" component={Terms} />
+        <Drawer.Screen name="FAQ" component={FAQ} />
         <Drawer.Screen name="About" component={About} />
       </Drawer.Navigator>
     )

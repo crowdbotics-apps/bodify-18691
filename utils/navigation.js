@@ -47,7 +47,7 @@ const Navigation = () => {
     
     setTimeout(() => {
       setIsMounted(true)
-    }, 2000);
+    }, 200);
   }, [])
 
   const isLogggedIn = Boolean(accessToken || token)

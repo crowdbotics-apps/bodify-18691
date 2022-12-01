@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function Profile() {
     const navigation = useNavigation();
+    const profile = useSelector((state) => state.App.profile);
     const dispatch = useDispatch()
     const onLogout = () => {
         dispatch(logout())
@@ -129,7 +130,7 @@ export default function Profile() {
                 }}
                 onPress={() => captureImage('photo')}/>
             </View> )}
-            <Text style={styles.signText}>Hey,{"\n"}Carlanda      </Text>
+            <Text style={styles.signText}>Hey,{"\n"}{profile.first_name}      </Text>
 
             <View>
             <View

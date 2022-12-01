@@ -42,7 +42,7 @@ export default function Sidemenu({navigation}) {
             <TouchableOpacity onPress={() => navigation.navigate('Terms')}>
                 <Text style={styles.menuItems}>Terms of Use</Text>
             </TouchableOpacity>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('FAQ')}>
                 <Text style={styles.menuItems}>FAQ</Text>
             </TouchableOpacity>
            
