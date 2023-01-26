@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image, Alert, Linking } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -219,7 +219,7 @@ export default function Signup({navigation}) {
                     fillColor="#0078ED"
                     />
                     <Text>
-                        <Text style={styles.underline} onPress={() => Linking.openURL('')}>Agree to Terms and Conditions</Text>
+                        <Text style={styles.underline} onPress={() => Linking.openURL('https://www.bodify.io/terms-conditions')}>Agree to Terms and Conditions</Text>
                     </Text>
                 </View>
 
@@ -229,7 +229,7 @@ export default function Signup({navigation}) {
                     fillColor="#0078ED"
                     />
                     <Text>
-                        <Text style={styles.underline} onPress={() => Linking.openURL('')}>Agree to Privacy Policy</Text>
+                        <Text style={styles.underline} onPress={() => Linking.openURL('https://www.bodify.io/privacypolicy')}>Agree to Privacy Policy</Text>
                     </Text>
                 </View>
                 </View>
