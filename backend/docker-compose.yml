@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  web:
+  web_bodify:
     depends_on:
-      - postgres
+      - db_bodify
       - redis
-  postgres:
+  db_bodify:
     image: postgres:12
   redis:
     image: redis:5

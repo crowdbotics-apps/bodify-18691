@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  web:
+  web_bodify:
     build:
       context: .
       args:
@@ -11,7 +11,7 @@ services:
       - ./:/opt/webapp
     ports:
       - "8000:${PORT}"
-  postgres:
+  db_bodify:
     environment:
       POSTGRES_PASSWORD: <postgres_pwd>
     volumes:
