@@ -24,7 +24,7 @@ const Navigation = () => {
   let token = null;
   // const [isMounted, setIsMounted] = useState(null);
   const accessToken = useSelector((state) => state.Auth.accessToken);
-  const profile = useSelector((state) => state.App.profile)
+  // const profile = useSelector((state) => state.App.profile)
   
   useEffect(() => () => {
     isReadyRef.current = false
