@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image, Alert, Linking, Platform } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -219,7 +219,7 @@ export default function Signup({navigation}) {
                     fillColor="#0078ED"
                     />
                     <Text>
-                        <Text style={styles.underline} onPress={() => Linking.openURL('')}>Agree to Terms and Conditions</Text>
+                        <Text style={styles.underline} onPress={() => Linking.openURL('https://www.bodify.io/terms-conditions')}>Agree to Terms and Conditions</Text>
                     </Text>
                 </View>
 
@@ -229,7 +229,7 @@ export default function Signup({navigation}) {
                     fillColor="#0078ED"
                     />
                     <Text>
-                        <Text style={styles.underline} onPress={() => Linking.openURL('')}>Agree to Privacy Policy</Text>
+                        <Text style={styles.underline} onPress={() => Linking.openURL('https://www.bodify.io/privacypolicy')}>Agree to Privacy Policy</Text>
                     </Text>
                 </View>
                 </View>
@@ -239,12 +239,13 @@ export default function Signup({navigation}) {
                 </View>
 
                 <View style={styles.btn}>
+                    <Text style={styles.label}>Already have an account?</Text>
                    <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={styles.label}>Log in </Text></TouchableOpacity>
                 </View>
 
                 <View style={styles.signOption}>
                         <TouchableOpacity><Image source= {require("../assets/google.png")}/></TouchableOpacity>
-                        <TouchableOpacity><Image source= {require("../assets/apple.png")}/></TouchableOpacity>
+                       {Platform.OS === "ios" && <TouchableOpacity><Image source= {require("../assets/apple.png")}/></TouchableOpacity>}
                         <TouchableOpacity><Image source= {require("../assets/fb.png")}/></TouchableOpacity>
                 </View>
             </ScrollView>
