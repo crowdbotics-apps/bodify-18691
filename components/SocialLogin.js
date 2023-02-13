@@ -104,7 +104,7 @@ const SocialLogin = ({ userType }) => {
           source={require('../assets/google-black.png')}
         />    
       </TouchableOpacity>
-      <TouchableOpacity onPress={loginWithGoogle}>
+      <TouchableOpacity onPress={loginWithApple}>
         <Image
           style={styles.icon}
           resizeMode="contain"

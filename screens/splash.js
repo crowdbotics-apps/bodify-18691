@@ -10,9 +10,10 @@ export default function Splash({navigation, isLogggedIn}) {
   
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate(isLogggedIn ? NEXT_SCREEN_HOME : NEXT_SCREEN_NAME_ONBOARD)
+      navigation.navigate(isLogggedIn ? NEXT_SCREEN_HOME : NEXT_SCREEN_NAME)
     }, 3000)
-  }, [])
+  }, []);
+  
 
   return (
     <>
