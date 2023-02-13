@@ -22,7 +22,7 @@ const Navigation = () => {
   const dispatch = useDispatch();
 
   let token = null;
-  const [isMounted, setIsMounted] = useState(null);
+  // const [isMounted, setIsMounted] = useState(null);
   const accessToken = useSelector((state) => state.Auth.accessToken);
   const profile = useSelector((state) => state.App.profile)
   
@@ -45,19 +45,19 @@ const Navigation = () => {
       }
     })()
     
-    setTimeout(() => {
-      setIsMounted(true)
-    }, 200);
+    // setTimeout(() => {
+    //   setIsMounted(true)
+    // }, 200);
   }, [])
 
   const isLogggedIn = Boolean(accessToken || token)
 
   return (
     <NavigationContainer >
-      {isLogggedIn || !isMounted ? (
-        <DrawerNavigation/>
+      {isLogggedIn ? (
+        <DrawerNavigation isLogggedIn={isLogggedIn} />
       ) : (
-        <OnboardStackNavigator/>
+        <OnboardStackNavigator isLogggedIn={isLogggedIn} />
       )
       }
     </NavigationContainer>

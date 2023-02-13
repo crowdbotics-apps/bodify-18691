@@ -2,7 +2,8 @@ import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import SideMenu from '../user/sidemenu';
 //import TabNavigator from './tabNavigator';
-import { OnboardStackNavigator } from './stackNavigator';
+// import { OnboardStackNavigator } from './stackNavigator';
+import Splash from '../splash';
 import Home from '../user/home';
 import SignupSuccess from '../user/signupsuccess';
 import ManualMeasurement from '../user/manual_measurement';
@@ -19,11 +20,12 @@ import About from '../user/about';
 import FAQ from '../user/faq';
 
 const Drawer = createDrawerNavigator()
-export default function DrawerNavigation() {
+export default function DrawerNavigation({isLogggedIn}) {
     return (
-        <Drawer.Navigator initialRouteName="Home"
+        <Drawer.Navigator initialRouteName="Splash"
         screenOptions={{headerShown: false}}
         drawerContent={props => <SideMenu {...props}/>}>
+        <Drawer.Screen name="Splash" component={props => <Splash {...props} isLogggedIn={isLogggedIn} />} />
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="SignupSuccess" component={SignupSuccess} />
         <Drawer.Screen name="ManualMeasurement" component={ManualMeasurement} />
