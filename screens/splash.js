@@ -1,5 +1,6 @@
 import { StyleSheet, Image, View } from 'react-native';
 import React, {useEffect} from 'react';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const NEXT_SCREEN_NAME = "Login"
 const NEXT_SCREEN_HOME = "Home"
@@ -11,7 +12,7 @@ export default function Splash({navigation, isLogggedIn}) {
       navigation.navigate(isLogggedIn ? NEXT_SCREEN_HOME : NEXT_SCREEN_NAME)
     }, 3000)
   }, [])
-  
+
   return (
     <View style={styles.container}>
       <Image
@@ -26,6 +27,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: 'center',
-    backgroundColor: "#F2F2F2"
-  }
+    backgroundColor: "#F2F2F2",
+  },
 });
