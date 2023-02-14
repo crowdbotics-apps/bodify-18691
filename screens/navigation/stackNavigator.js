@@ -15,6 +15,8 @@ import TokenInput from '../tokenInput';
 import PasswordReset from '../user/password-reset';
 import SetNewPassword from '../setPassword';
 
+import Privacy from '../user/privacy';
+import Terms from '../user/terms';
 
 
 const Stack = createStackNavigator();
@@ -43,6 +45,8 @@ const Stack = createStackNavigator();
         <Stack.Screen name="TokenInput" component={TokenInput}/>
         <Stack.Screen name="PasswordReset" component={PasswordReset}/>
         <Stack.Screen name="SetPassword" component={SetNewPassword}/>
+        <Stack.Screen name="Terms" component={Terms} />
+        <Stack.Screen name="Privacy" component={Privacy} />
     </Stack.Navigator>
     );
     

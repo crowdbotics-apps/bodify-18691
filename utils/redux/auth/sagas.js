@@ -157,7 +157,7 @@ import {
   
   
   function sendInstagramLogin (payload) {
-    return request.post('/api/v1/accounts/login/social/instagram/', payload);
+    return request.post('/api/v1/accounts/login/social/apple/', payload);
   }
   
   function *handleInstagramLogin ({ payload }) {

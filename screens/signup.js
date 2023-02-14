@@ -12,13 +12,16 @@ export default function Signup({navigation}) {
     const dispatch = useDispatch()
     const [isTerms, setTerms] = useState(false);
     const [isPrivacy, setPrivacy] = useState(false);
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(null)
     const [data, setData] = useState({
         first_name: '',
         last_name: '',
         email: '',
         password: ''
       })
+
+    const [passwordVisibility, setPasswordVisibility] = useState(true)
+    const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(true)
     
       const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
@@ -40,10 +43,15 @@ export default function Signup({navigation}) {
         }
     }
     const handlePass = (val) => {
+        let reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
         if(val.length < 7) {
             setErrors("Password must be 8 characters or more")
             
-        } else {
+        } 
+        else if(reg.test(val) == false) {
+            setErrors("Password at least one letter, one number and one special characte")
+        }else  {
             setErrors(null)
         }
     }
@@ -84,23 +92,27 @@ export default function Signup({navigation}) {
     const signUpHandler = () => {
         //navigation.navigate('SignupSuccess')
        // console.log(data)
-        if(isPrivacy == false) {
-            setErrors('Please accept the privacy policy')
-        } else if(isTerms == false) {
-            setErrors('Please accept the terms')
+        if(data.email == '') {
+            setErrors('Email is required.')     
         } else if(data.first_name == '') {
-            setErrors('first name is required')
+            setErrors('First name is required.')
         } else if(data.last_name == '') {
-            setErrors('last name is required')
-        } else if(data.phone == '') {
-            setErrors('phone is required')
-        } else if(data.email == '') {
-            setErrors('email is required')     
+            setErrors('Last name is required.')
+        // } else if(data.phone == '') {
+        //     setErrors('Phone is required.')
         } else if(data.password == '') {
-            setErrors('password is required')
-        } else if(data.password2 == '') {
-            setErrors('confirm password is required')
-        }  else if(errors) {
+            setErrors('Password is required.')
+        } else if(data.confirm_password == '') {
+            setErrors('Confirm password is required.')
+        } else if (data.confirm_password !== data.password ) {
+            setErrors('password does not matched.')
+        } else if (!date) {
+            setErrors('Please select your birthday.')
+        } else if(isPrivacy == false) {
+            setErrors('Please accept the privacy policy.')
+        } else if(isTerms == false) {
+            setErrors('Please accept the terms.')
+        } else if(errors) {
             console.log(errors)
         } else {
         const formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
@@ -125,7 +137,7 @@ export default function Signup({navigation}) {
       <View style={styles.container}>
         <SafeAreaView>
                 <Text style={styles.signText}>Create{"\n"}Account </Text>
-                {errors ? <Text style={{color: 'red', alignSelf: 'center', marginBottom: 20}}>{errors}</Text>: null}
+                {errors ? <Text style={{color: 'red', alignSelf: 'center', marginBottom: 20, fontSize: 14}}>{errors}</Text>: null}
             <ScrollView>
                 <View style={styles.inputView}>
                     <Text style={styles.label}>Email</Text>
@@ -167,15 +179,65 @@ export default function Signup({navigation}) {
                     <Text style={styles.label}>Password</Text>
                     <View style={{flexDirection: 'row',}}>
                         <TextInput
-                        style={styles.TextInput}
-                        onChangeText={(val) => setData({...data, password: val})}
-                        onEndEditing={(e)=>handlePass(e.nativeEvent.text)}
-                        autoCapitalize='none'
-                        secureTextEntry={true}
-                        placeholder='*************'
-                        placeholderTextColor='#fff'
-                        />
-                        
+                            style={styles.TextInput}
+                            onChangeText={(val) => setData({...data, password: val})}
+                            onEndEditing={(e)=>handlePass(e.nativeEvent.text)}
+                            autoCapitalize='none'
+                            secureTextEntry={passwordVisibility}
+                            placeholder='*************'
+                            placeholderTextColor='#fff'
+                            />
+                        {passwordVisibility ? <Icon name="eye" size={30} color="#fff" 
+                        style={{
+                            left: 280,
+                            padding: 40,
+                            alignSelf: "center",
+                            position: "absolute"
+                            }}
+                            onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                        :
+                        <Icon name="eye-slash" size={30} color="#fff" 
+                            style={{
+                                left: 280,
+                                padding: 40,
+                                alignSelf: "center",
+                                position: "absolute"
+                                }}
+                                onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                        }
+                   </View>
+                </View>
+
+                <View style={styles.inputView}>
+                    <Text style={styles.label}>Confirm Password</Text>
+                    <View style={{flexDirection: 'row',}}>
+                        <TextInput
+                            style={styles.TextInput}
+                            onChangeText={(val) => setData({...data, confirm_password: val})}
+                            onEndEditing={(e)=>handlePass(e.nativeEvent.text)}
+                            autoCapitalize='none'
+                            secureTextEntry={confirmPasswordVisibility}
+                            placeholder='*************'
+                            placeholderTextColor='#fff'
+                            />
+                        {confirmPasswordVisibility ? <Icon name="eye" size={30} color="#fff" 
+                        style={{
+                            left: 280,
+                            padding: 40,
+                            alignSelf: "center",
+                            position: "absolute"
+                            }}
+                            onPress={() => setConfirmPasswordVisibility(!confirmPasswordVisibility)}/>
+                        :
+                        <Icon name="eye-slash" size={30} color="#fff" 
+                            style={{
+                                left: 280,
+                                padding: 40,
+                                alignSelf: "center",
+                                position: "absolute"
+                                }}
+                                onPress={() => setConfirmPasswordVisibility(!confirmPasswordVisibility)}/>
+                        }
                    </View>
                 </View>
 
@@ -185,9 +247,9 @@ export default function Signup({navigation}) {
                     <TextInput
                     style={styles.TextInput}
                     onChangeText={(val) => setData({...data, dob: val})}
-                    placeholder=''
+                    placeholder='Your Birthday'
                     placeholderTextColor={'#001F47'}
-                    value={date.toDateString()}
+                    value={date ? date.toDateString() : 'Your Birthday'}
                     editable={false}
                     /> 
                     <Icon name="caret-down" size={30} color="#fff" 
@@ -203,12 +265,14 @@ export default function Signup({navigation}) {
                     {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={date}
+                      value={date || new Date()}
                       mode="date"
                       is24Hour={true}
                       display="spinner"
                       onChange={onChange}
                       textColor="#fff"
+                      maximumDate={new Date()}
+                      minimumDate={new Date(1950, 0, 1)}
                     /> )}   
                 </View>
                 
@@ -219,7 +283,7 @@ export default function Signup({navigation}) {
                     fillColor="#0078ED"
                     />
                     <Text>
-                        <Text style={styles.underline} onPress={() => Linking.openURL('https://www.bodify.io/terms-conditions')}>Agree to Terms and Conditions</Text>
+                        <Text style={styles.underline} onPress={() => navigation.navigate('Terms', {root: true})}>Agree to Terms and Conditions</Text>
                     </Text>
                 </View>
 
@@ -229,7 +293,7 @@ export default function Signup({navigation}) {
                     fillColor="#0078ED"
                     />
                     <Text>
-                        <Text style={styles.underline} onPress={() => Linking.openURL('https://www.bodify.io/privacypolicy')}>Agree to Privacy Policy</Text>
+                        <Text style={styles.underline} onPress={() => navigation.navigate('Privacy', {root: true})}>Agree to Privacy Policy</Text>
                     </Text>
                 </View>
                 </View>

@@ -6,13 +6,13 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {Picker} from '@react-native-picker/picker';
 import { BASE_URL } from '../../utils/http';
 
-export default function Privacy({navigation}) {
+export default function Privacy({navigation, route}) {
     const [show, setShow] = useState(false)
     
   return (
       <View style={{flex: 1, backgroundColor: "#fff"}}>
         <SafeAreaView>
-             <Header2 />
+             <Header2 showDrawer={route?.params?.root ? false : true} />
              <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>Privacy {'\n'}Policy</Text>
