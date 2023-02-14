@@ -1,8 +1,23 @@
 import { StyleSheet, Image, View, Text, TouchableOpacity, StatusBar } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { heightPercentageToDP as hp , widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import StorageUtils from '../utils/storage';
 
 export default function Onboard5({navigation}) {
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const firstVisit = await StorageUtils.getFirstVisit();
+        if (firstVisit == 'true') {
+          StorageUtils.setFirstVisit('false');
+        }
+      } catch (e) {
+        console.log('e', e)
+        StorageUtils.removeFirstVisit();
+      }
+    })()
+  },[])
 
   return (
     <>

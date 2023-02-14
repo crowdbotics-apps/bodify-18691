@@ -212,6 +212,7 @@ import {
   
           StorageUtils.setAccessToken(loginInfo.data.token);
           StorageUtils.setUser(loginInfo.data.user);
+          StorageUtils.setSignedUp('true');
           addTokenToHttp(loginInfo.data.token);
           yield put(getProfile())
         }
