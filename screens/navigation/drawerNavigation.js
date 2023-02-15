@@ -22,13 +22,13 @@ import FAQ from '../user/faq';
 const NEXT_SCREEN_HOME = "Home"
 
 const Drawer = createDrawerNavigator()
-export default function DrawerNavigation({isLogggedIn}) {
+export default function DrawerNavigation() {
 
     return (
         <Drawer.Navigator initialRouteName={NEXT_SCREEN_HOME}
         screenOptions={{headerShown: false}}
         drawerContent={props => <SideMenu {...props}/>}>
-        <Drawer.Screen name="Splash" component={(props) => <Splash {...props} isLogggedIn={isLogggedIn} />} />
+        <Drawer.Screen name="Splash" component={Splash} />
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="SignupSuccess" component={SignupSuccess} />
         <Drawer.Screen name="ManualMeasurement" component={ManualMeasurement} />

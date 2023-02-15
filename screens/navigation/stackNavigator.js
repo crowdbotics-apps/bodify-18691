@@ -21,7 +21,7 @@ import Terms from '../user/terms';
 
 const Stack = createStackNavigator();
 
-  const OnboardStackNavigator = ({isLogggedIn}) => {
+  const OnboardStackNavigator = () => {
     
     
     return (
@@ -30,7 +30,7 @@ const Stack = createStackNavigator();
       initialRouteName="Splash"
     >
         
-        <Stack.Screen name="Splash" component={(props) => <Splash {...props} isLogggedIn={isLogggedIn} />} />
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Onboard1" component={Onboard1}/>
         <Stack.Screen name="Onboard2" component={Onboard2}/>
         <Stack.Screen name="Onboard3" component={Onboard3}/>

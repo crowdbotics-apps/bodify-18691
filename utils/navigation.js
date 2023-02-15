@@ -61,9 +61,9 @@ const Navigation = () => {
   return (
     <NavigationContainer >
       {isLogggedIn && accessToken !== null ? (
-        <DrawerNavigation isLogggedIn={isLogggedIn} />
+        <DrawerNavigation />
       ) : (
-        <OnboardStackNavigator isLogggedIn={isLogggedIn} />
+        <OnboardStackNavigator />
       )
       }
     </NavigationContainer>
