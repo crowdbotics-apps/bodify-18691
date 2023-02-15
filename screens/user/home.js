@@ -1,8 +1,28 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from './header';
 
+const NEXT_SIGNED_UP = "SignupSuccess"
+
+import StorageUtils from '../../utils/storage';
+
 export default function Home({navigation}) {
+
+    useEffect(() => {
+        (async () => {
+          try {
+            const signedUp = await StorageUtils.getSignedUp();
+            // const firstVisit = await StorageUtils.getFirstVisit();
+            if(signedUp === 'true') {
+                navigation.navigate(NEXT_SIGNED_UP)
+            }
+          } catch (e) {
+            console.log('e', e)
+          }
+        })()
+    
+      }, []);
+
   return (
       <View style={styles.container}>
         <SafeAreaView>

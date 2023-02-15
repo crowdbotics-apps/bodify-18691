@@ -16,13 +16,17 @@ export default function Splash({navigation, isLogggedIn}) {
       try {
         const signedUp = await StorageUtils.getSignedUp();
         const firstVisit = await StorageUtils.getFirstVisit();
+
+        // console.log(signedUp, firstVisit);
+
         setTimeout(() => {
-          if(isLogggedIn == 'true') {
+          if(isLogggedIn) {
             navigation.navigate(signedUp == 'true' ?  NEXT_SIGNED_UP : NEXT_SCREEN_HOME)
           }else {
             navigation.navigate(firstVisit == 'true' ?  NEXT_SCREEN_NAME_ONBOARD : NEXT_SCREEN_NAME)
           }
         }, 3000)
+
       } catch (e) {
         console.log('e', e)
       }

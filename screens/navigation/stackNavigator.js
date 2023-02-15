@@ -24,14 +24,13 @@ const Stack = createStackNavigator();
   const OnboardStackNavigator = ({isLogggedIn}) => {
     
     
-    
     return (
       <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="Splash"
     >
         
-        <Stack.Screen name="Splash" component={props => <Splash {...props} isLogggedIn={isLogggedIn} />} />
+        <Stack.Screen name="Splash" component={(props) => <Splash {...props} isLogggedIn={isLogggedIn} />} />
         <Stack.Screen name="Onboard1" component={Onboard1}/>
         <Stack.Screen name="Onboard2" component={Onboard2}/>
         <Stack.Screen name="Onboard3" component={Onboard3}/>

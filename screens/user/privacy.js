@@ -122,7 +122,7 @@ export default function Privacy({navigation, route}) {
                 {'\n'}Overland Park, Kansas 66211 
                 
                 </Text>
-                <Text style={{fontSize: 16, color: '#979797'}}>{'\n'}Email Address: {'\n'}<Text style={{color: "#0078ED"}}>hello@bodify.info </Text></Text>
+                <Text style={{fontSize: 16, color: '#979797'}}>{'\n'}Email Address: {'\n'}<Text style={{color: "#0078ED"}} onPress={() => Linking.openURL('mailto:hello@bodify.info')}>hello@bodify.info </Text></Text>
                 <Text style={{fontSize: 16, color: '#979797'}}>{'\n'}Effective as of May 01, 2021 </Text>
             </View>
 

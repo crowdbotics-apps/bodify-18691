@@ -28,7 +28,8 @@ export default function Signup({navigation}) {
         console.log(currentDate)
         //setShow(Platform.OS === 'ios')
         setDate(currentDate)
-        //setShow(false)
+        setShow(false)
+
       }
       const handlePrivacy = () => {
         if (isPrivacy == false) {

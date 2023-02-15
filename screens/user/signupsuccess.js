@@ -13,7 +13,7 @@ export default function SignupSuccess({navigation}) {
         }
       } catch (e) {
         console.log('e', e)
-        StorageUtils.removeSignedUp();
+        // StorageUtils.removeSignedUp();
       }
     })()
 
@@ -25,7 +25,7 @@ export default function SignupSuccess({navigation}) {
         source={require("../../assets/onboard1.png")}
       />
     <View style={{position:'absolute', top: '6%', right: '10%'}}>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.openDrawer()}>
      <Image
         source={require("../../assets/nav.png")}
       />

@@ -14,7 +14,7 @@ export default function Onboard5({navigation}) {
         }
       } catch (e) {
         console.log('e', e)
-        StorageUtils.removeFirstVisit();
+        // StorageUtils.removeFirstVisit();
       }
     })()
   },[])

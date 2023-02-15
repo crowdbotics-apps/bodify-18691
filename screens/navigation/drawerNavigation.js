@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import SideMenu from '../user/sidemenu';
 //import TabNavigator from './tabNavigator';
@@ -19,13 +19,16 @@ import Terms from '../user/terms';
 import About from '../user/about';
 import FAQ from '../user/faq';
 
+const NEXT_SCREEN_HOME = "Home"
+
 const Drawer = createDrawerNavigator()
 export default function DrawerNavigation({isLogggedIn}) {
+
     return (
-        <Drawer.Navigator initialRouteName="Splash"
+        <Drawer.Navigator initialRouteName={NEXT_SCREEN_HOME}
         screenOptions={{headerShown: false}}
         drawerContent={props => <SideMenu {...props}/>}>
-        <Drawer.Screen name="Splash" component={props => <Splash {...props} isLogggedIn={isLogggedIn} />} />
+        <Drawer.Screen name="Splash" component={(props) => <Splash {...props} isLogggedIn={isLogggedIn} />} />
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="SignupSuccess" component={SignupSuccess} />
         <Drawer.Screen name="ManualMeasurement" component={ManualMeasurement} />

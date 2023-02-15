@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const Constants = {
   ACCESS_TOKEN: 'access_token',
   USER: 'user',
-  FIRST_VISIT: 'true',
-  JUST_SIGNED_UP: 'false',
+  FIRST_VISIT: 'FIRST_VISIT',
+  JUST_SIGNED_UP: 'JUST_SIGNED_UP',
 };
 
 
@@ -37,8 +37,8 @@ const StorageUtils = {
   },
 
   getFirstVisit: async () => {
-    const user = await AsyncStorage.getItem(Constants.FIRST_VISIT);
-    return user ? JSON.parse(user) : {};
+    const first_visit = await AsyncStorage.getItem(Constants.FIRST_VISIT);
+    return first_visit;
   },
 
   setFirstVisit: async (visit) => {
@@ -50,8 +50,8 @@ const StorageUtils = {
   },
 
   getSignedUp: async () => {
-    const user = await AsyncStorage.getItem(Constants.JUST_SIGNED_UP);
-    return user ? JSON.parse(user) : {};
+    const first_singup = await AsyncStorage.getItem(Constants.JUST_SIGNED_UP);
+    return first_singup;
   },
 
   setSignedUp: async (visit) => {
