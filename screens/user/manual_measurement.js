@@ -5,10 +5,12 @@ import Header2 from './header2';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {Picker} from '@react-native-picker/picker';
 import { BASE_URL } from '../../utils/http';
+import { useDispatch, useSelector } from "react-redux"
 
 export default function ManualMeasurement({navigation}) {
     const [show, setShow] = useState(false)
     const [drop, setDrop] = useState(false)
+    const profile = useSelector(state => state.App.profile)
     const pickerRef = useRef()
     const [selectedItem, setSelectedItem] = useState("Select one");
     const [data, setData] = useState({
@@ -31,6 +33,8 @@ export default function ManualMeasurement({navigation}) {
         shape_issue: false,
         something_else: ''
       })
+
+    console.log(profile, 'pro')
      
     const handleIssue = (type, val) => {
        // console.log(issue_two)
@@ -109,10 +113,11 @@ export default function ManualMeasurement({navigation}) {
             'jean_size': selectedItem,
             'fav_brands': data.fav_brands,
             'shopping_issue_one': issue_one,
-            'shopping_issue_two': issue_two,
-            'user': 2
+            'shopping_issue_one': issue_two,
+            'user': profile?.id
           })
-          console.log(body)
+
+        //   console.log(body)
       
           fetch(`${BASE_URL}/measurements/manual/`, {
             method: 'POST',
@@ -120,19 +125,22 @@ export default function ManualMeasurement({navigation}) {
               'Content-Type': 'application/json'
             },
             body: body
-          }).then(res => {
+          }).then(async res => {
             if(res.ok) {
-              return res.json()
+              return await res.json()
             } else {
+                console.log(res, 'error')
                 Alert.alert('Sorry!', 'Unable to get measurements.', [{text: 'Okay'}])
-              throw res.json()
+              throw await res.json()
             }
           }).then(json => {
+            console.log(json);
             navigation.navigate('Match')
           }).catch(error => {
             console.log(error)
           })
     }
+    
   return (
       <View style={styles.container}>
         <SafeAreaView>

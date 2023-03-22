@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native'
 import { Settings, LoginManager, AccessToken } from 'react-native-fbsdk-next';
 // import InstagramLogin from 'react-native-instagram-login';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { facebookLogin, googleLogin } from '../utils/redux/auth/actions';
+import { facebookLogin, googleLogin, instagramLogin } from '../utils/redux/auth/actions';
 import { useDispatch } from 'react-redux';
 
-const SocialLogin = ({ userType }) => {
+const SocialLogin = ({ userType, mode }) => {
   // const instagramLoginRef = useRef();
   const dispatch = useDispatch()
 
@@ -51,23 +52,40 @@ const SocialLogin = ({ userType }) => {
   }
 
   async function loginWithApple() {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME]
-    })
+    try {
+        // performs login request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME]
+      })
 
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user
-    )
+      // get current authentication state for user
+      // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user
+      )
 
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-      // user is authenticated
-      console.log(credentialState)
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // user is authenticated
+        console.log(credentialState, "ios")
+      }
+
+      const {
+        identityToken,
+      } = appleAuthRequestResponse;
+
+      if(identityToken) {
+        dispatch(instagramLogin({ 
+          access_token: identityToken?.toString(),
+          user_type: "Customer"
+        }))
+      }
+
+    } catch (error) {
+      console.log(`==> Login fail with error: ${error}`);
     }
+    
   }
 
   const loginWithGoogle = async () => {
@@ -101,21 +119,23 @@ const SocialLogin = ({ userType }) => {
         <Image
           style={styles.icon}
           resizeMode="contain"
-          source={require('../assets/google-black.png')}
+          source={mode === "singup" ? require("../assets/google.png") : require('../assets/google-black.png')}
         />    
       </TouchableOpacity>
-      <TouchableOpacity onPress={loginWithApple}>
+      {Platform.OS === "ios" &&  
+        <TouchableOpacity onPress={loginWithApple}>
         <Image
           style={styles.icon}
           resizeMode="contain"
-          source={require('../assets/apple-black.png')}
+          source={ mode === "singup" ? require("../assets/apple.png") : require('../assets/apple-black.png')}
         />    
       </TouchableOpacity>
+      }
       <TouchableOpacity onPress={loginWithFacebook}>
         <Image
           style={styles.icon}
           resizeMode="contain"
-          source={require('../assets/fb-black.png')}
+          source={mode === "singup" ? require("../assets/fb.png") : require('../assets/fb-black.png')}
         />    
       </TouchableOpacity>
     </View>

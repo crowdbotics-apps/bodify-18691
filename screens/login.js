@@ -198,7 +198,7 @@ export default function Login({ navigation }) {
 
           <View style={styles.btn}>
             <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-              <Text style={styles.label}>Sign Up </Text>
+              <Text style={styles.label}>Create an Account </Text>
             </TouchableOpacity>
           </View>
 
@@ -264,13 +264,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "normal",
-    backgroundColor: "#F68974",
+    backgroundColor: "#0078ED",
     overflow: "hidden",
     borderRadius: 30
   },
   btn: {
     marginTop: 40,
-    alignItems: "center"
+    alignItems: "center",
   },
   signOption: {
     flexDirection: "row",

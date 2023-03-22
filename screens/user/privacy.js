@@ -6,13 +6,13 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {Picker} from '@react-native-picker/picker';
 import { BASE_URL } from '../../utils/http';
 
-export default function Privacy({navigation}) {
+export default function Privacy({navigation, route}) {
     const [show, setShow] = useState(false)
     
   return (
       <View style={{flex: 1, backgroundColor: "#fff"}}>
         <SafeAreaView>
-             <Header2 />
+             <Header2 showDrawer={route?.params?.root ? false : true} />
              <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>Privacy {'\n'}Policy</Text>
@@ -122,7 +122,7 @@ export default function Privacy({navigation}) {
                 {'\n'}Overland Park, Kansas 66211 
                 
                 </Text>
-                <Text style={{fontSize: 16, color: '#979797'}}>{'\n'}Email Address: {'\n'}<Text style={{color: "#0078ED"}}>hello@bodify.info </Text></Text>
+                <Text style={{fontSize: 16, color: '#979797'}}>{'\n'}Email Address: {'\n'}<Text style={{color: "#0078ED"}} onPress={() => Linking.openURL('mailto:hello@bodify.info')}>hello@bodify.info </Text></Text>
                 <Text style={{fontSize: 16, color: '#979797'}}>{'\n'}Effective as of May 01, 2021 </Text>
             </View>
 

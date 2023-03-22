@@ -35,10 +35,16 @@ const Navigation = () => {
       try {
         token = await StorageUtils.getAccessToken();
         const email = await StorageUtils.getUser();
+        const first_visit = await StorageUtils.getFirstVisit();
         dispatch(setUser(email, token))
         addTokenToHttp(token)
         if (token) {
           dispatch(getProfile())
+        }
+        // await StorageUtils.setFirstVisit('true');
+        if(!first_visit) {
+          await StorageUtils.setFirstVisit('true');
+          // await StorageUtils.removeFirstVisit();
         }
       } catch (e) {
         console.log('e', e)
@@ -54,10 +60,10 @@ const Navigation = () => {
 
   return (
     <NavigationContainer >
-      {isLogggedIn ? (
-        <DrawerNavigation isLogggedIn={isLogggedIn} />
+      {isLogggedIn && accessToken !== null ? (
+        <DrawerNavigation />
       ) : (
-        <OnboardStackNavigator isLogggedIn={isLogggedIn} />
+        <OnboardStackNavigator />
       )
       }
     </NavigationContainer>

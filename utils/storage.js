@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const Constants = {
   ACCESS_TOKEN: 'access_token',
   USER: 'user',
+  FIRST_VISIT: 'FIRST_VISIT',
+  JUST_SIGNED_UP: 'JUST_SIGNED_UP',
 };
 
 
@@ -32,6 +34,32 @@ const StorageUtils = {
 
   removeUser: async () => {
     await AsyncStorage.removeItem(Constants.USER);
+  },
+
+  getFirstVisit: async () => {
+    const first_visit = await AsyncStorage.getItem(Constants.FIRST_VISIT);
+    return first_visit;
+  },
+
+  setFirstVisit: async (visit) => {
+    await AsyncStorage.setItem(Constants.FIRST_VISIT, visit);
+  },
+
+  removeFirstVisit: async () => {
+    await AsyncStorage.removeItem(Constants.FIRST_VISIT);
+  },
+
+  getSignedUp: async () => {
+    const first_singup = await AsyncStorage.getItem(Constants.JUST_SIGNED_UP);
+    return first_singup;
+  },
+
+  setSignedUp: async (visit) => {
+    await AsyncStorage.setItem(Constants.JUST_SIGNED_UP, visit);
+  },
+
+  removeSignedUp: async () => {
+    await AsyncStorage.removeItem(Constants.JUST_SIGNED_UP);
   },
 };
 

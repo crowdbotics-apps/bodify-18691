@@ -15,12 +15,13 @@ import TokenInput from '../tokenInput';
 import PasswordReset from '../user/password-reset';
 import SetNewPassword from '../setPassword';
 
+import Privacy from '../user/privacy';
+import Terms from '../user/terms';
 
 
 const Stack = createStackNavigator();
 
-  const OnboardStackNavigator = ({isLogggedIn}) => {
-    
+  const OnboardStackNavigator = () => {
     
     
     return (
@@ -29,7 +30,7 @@ const Stack = createStackNavigator();
       initialRouteName="Splash"
     >
         
-        <Stack.Screen name="Splash" component={props => <Splash {...props} isLogggedIn={isLogggedIn} />} />
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Onboard1" component={Onboard1}/>
         <Stack.Screen name="Onboard2" component={Onboard2}/>
         <Stack.Screen name="Onboard3" component={Onboard3}/>
@@ -43,6 +44,8 @@ const Stack = createStackNavigator();
         <Stack.Screen name="TokenInput" component={TokenInput}/>
         <Stack.Screen name="PasswordReset" component={PasswordReset}/>
         <Stack.Screen name="SetPassword" component={SetNewPassword}/>
+        <Stack.Screen name="Terms" component={Terms} />
+        <Stack.Screen name="Privacy" component={Privacy} />
     </Stack.Navigator>
     );
     

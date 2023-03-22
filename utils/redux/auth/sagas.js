@@ -157,7 +157,7 @@ import {
   
   
   function sendInstagramLogin (payload) {
-    return request.post('/api/v1/accounts/login/social/instagram/', payload);
+    return request.post('/api/v1/accounts/login/social/apple/', payload);
   }
   
   function *handleInstagramLogin ({ payload }) {
@@ -212,6 +212,7 @@ import {
   
           StorageUtils.setAccessToken(loginInfo.data.token);
           StorageUtils.setUser(loginInfo.data.user);
+          StorageUtils.setSignedUp('true');
           addTokenToHttp(loginInfo.data.token);
           yield put(getProfile())
         }

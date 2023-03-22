@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Header2 from './header2';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {Picker} from '@react-native-picker/picker';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { BASE_URL } from '../../utils/http';
 import { useNavigation } from '@react-navigation/native';
 import { logout } from '../../utils/redux/auth/actions'

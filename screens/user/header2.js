@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, Pressable, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Header2() {
+export default function Header2({showDrawer=true}) {
     const navigation = useNavigation();
     return (
         <SafeAreaView>
@@ -13,7 +13,11 @@ export default function Header2() {
                 </TouchableOpacity>   
                 </View> 
                 <Image source= {require("../../assets/logo.png")} style={{left: 20}}/>
+               {showDrawer ? 
                <TouchableOpacity onPress={() => navigation.openDrawer()}><Image style={styles.nav} source= {require("../../assets/side.png")}/></TouchableOpacity>
+                :
+                <View />
+                }
             </View>
         </SafeAreaView>
     )
