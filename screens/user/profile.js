@@ -80,6 +80,80 @@ export default function Profile() {
     //}
   }
 
+
+  const handleImageUpload = async () => {
+    const options = {
+      mediaType: "photo",
+      includeBase64: false,
+      maxWidth: 300,
+      maxHeight: 550,
+      quality: 1
+      // maxHeight: 100,
+      // maxWidth: 100
+    }
+    launchImageLibrary(options, res => {
+      // setLoader(true)
+      if (res.didCancel) {
+        console.log("User cancelled image picker")
+        // setLoader(false)
+      } else if (res.error) {
+        // setLoader(false)
+        console.log("ImagePicker Error: ", res.error)
+      } else if (res.customButton) {
+        // setLoader(false)
+        console.log("User tapped custom button: ", res.customButton)
+        alert(res.customButton)
+      } else {
+        const file = {
+          contentType: res.assets[0].type,
+          contentDeposition: `inline;filename="${res.assets[0].fileName}"`,
+          fPath: res.assets[0].uri,
+          fName: res.assets[0].fileName
+        }
+
+        setFilePath(res.assets[0])
+        // Upload(file)
+        //   .then(response => {
+        //     const payload = {
+        //       token,
+        //       id: user.user_id,
+        //       profile_pic_url: response.Location
+        //     }
+        //     dispatch(updateProfilePhoto(payload))
+        //       .then(unwrapResult)
+        //       .then(res => {
+        //         setLoader(false)
+        //         Alert.alert("Image Uploaded Successfuly")
+        //       })
+        //       .catch(err => {})
+        //   })
+        //   .catch(err => {})
+      }
+    })
+  }
+
+  // const Upload = async file => {
+  //   const base64 = await fs.readFile(file.fPath, "base64")
+  //   const arrayBuffer = decode(base64)
+  //   const params = {
+  //     Bucket: config.Bucket,
+  //     Key: file.fName,
+  //     Body: arrayBuffer,
+  //     ContentDisposition: file.contentDeposition,
+  //     ContentType: file.contentType
+  //   }
+
+  //   return new Promise((resolve, reject) => {
+  //     S3.upload(params, (error, data) => {
+  //       if (error) {
+  //         reject(Alert.alert("Falied to Upload Image"))
+  //       }
+  //       resolve(data)
+  //     })
+  //   })
+  // }
+
+
   const handlePhoto = () => {
     let body = JSON.stringify({
       photo_front: filePath,
@@ -125,7 +199,7 @@ export default function Profile() {
           </View>
         ) : (
           <View style={{ marginTop: 40, alignSelf: "center" }}>
-            <TouchableOpacity onPress={() => captureImage("photo")}>
+            <TouchableOpacity onPress={handleImageUpload}>
               <Image source={require("../../assets/Rectangle.png")} />
             </TouchableOpacity>
             <Icon
@@ -137,7 +211,7 @@ export default function Profile() {
                 alignSelf: "center",
                 position: "absolute"
               }}
-              onPress={() => captureImage("photo")}
+              onPress={handleImageUpload}
             />
           </View>
         )}
