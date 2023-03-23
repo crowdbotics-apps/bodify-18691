@@ -3,11 +3,14 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.generics import *
+import logging
 from rest_auth.views import LoginView, PasswordChangeView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_auth.registration.views import SocialLoginView, SocialConnectView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -70,6 +73,7 @@ class CustomSocialLoginView(SocialLoginView):
                 try:
                     user.save()
                 except Exception as e:
+                    logging.warning(e)
                     print(e)
 
     # def post(self, request, *args, **kwargs):
@@ -89,6 +93,12 @@ class CustomSocialLoginView(SocialLoginView):
 
 class GoogleLoginAPI(CustomSocialLoginView):
     adapter_class = GoogleOAuth2Adapter
+
+class FacebookLoginAPI(CustomSocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+class AppleLoginAPI(CustomSocialLoginView):
+    adapter_class = AppleOAuth2Adapter
 
 class AccountPasswordReset(CreateAPIView):
     authentication_classes = []

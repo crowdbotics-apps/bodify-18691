@@ -17,6 +17,8 @@ urlpatterns = [
     path('login/token/', CustomAuthToken.as_view(), name='account_login'),
     path('signup/', AccountRegistration.as_view(), name='account_registration'),
     path('login/social/google/', GoogleLoginAPI.as_view(), name="google_login"),
+    path('login/social/facebook/', FacebookLoginAPI.as_view(), name="facebook_login"),
+    path('login/social/apple/', AppleLoginAPI.as_view(), name="apple_login"),
     path('profile/', AuthAccountProfileDetails.as_view(), name='auth_profile'),
     path('password-reset/', AccountPasswordReset.as_view()),
     path('password-reset/confirm/', AccountPasswordResetConfirm.as_view(), ),

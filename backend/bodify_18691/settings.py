@@ -65,6 +65,8 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.apple',
     'django_extensions',
     'drf_yasg',
     'storages',
@@ -197,6 +199,11 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
+        'APP': {
+            'client_id': env.str("FACEBOOK_CLIENT_ID", "2320015251534400"),
+            'secret': env.str("FACEBOOK_CLIENT_SECRET", "53ff01b81efedcdea4be968fbef6a359"),
+            'key': ''
+        },
         'SCOPE': ['email', 'public_profile', 'user_friends'],
         'FIELDS': [
             'id',
@@ -207,6 +214,11 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     },
     'google': {
+        'APP': {
+            'client_id': env.str("GOOGLE_CLIENT_ID", "989735441484-j2dki2r4b74ru15873u1inab2a0enb0c.apps.googleusercontent.com"),
+            'secret': env.str("GOOGLE_CLIENT_SECRET", "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"),
+            'key': ''
+        },
         'SCOPE': [
             'profile',
             'email',
@@ -216,9 +228,15 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     },
     'apple': {
-        'app': {
-            'certificate_key': env.str('APPLE_CERTIFICATE_KEY', '')
-        }
+        'APP': {
+            'client_id': env.str("APPLE_CLIENT_ID", ""),
+            'team_id': env.str("APPLE_TEAM_ID", "your-team-id"),
+            'client_secret': env.str("APPLE_CLIENT_SECRET", "your-client-secret"),
+            'key': ''
+        },
+        # 'app': {
+        #     'certificate_key': env.str('APPLE_CERTIFICATE_KEY', '')
+        # }
     }
 }
 

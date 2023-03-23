@@ -34,7 +34,7 @@ class User(AbstractUser):
     surname = models.CharField(_("Surname"), blank=True, null=True, max_length=255)
     dob = models.CharField(_("Date of Birth"), blank=True, null=True, max_length=255)
     phone = models.CharField(_('Phone Number'), max_length=20, null=True)
-    profile_picture = models.ImageField(upload_to=profile_picture_path, default=None, null=True, blank=True)
+    profile_picture = models.CharField(_("Profile Picture"), max_length=200, blank=True, null=True)
 
     user_type = models.CharField(choices=USER_TYPE_CHOICES, max_length=10, default='customer')
     is_blocked = models.BooleanField(_("Blocked"), default=False)
