@@ -125,7 +125,7 @@ export default function Profile() {
           .then(response => {
             console.log(response, 'pic')
             const payload = {
-              profile_picture: res.assets[0]
+              profile_picture: response?.Location
             }
             dispatch(updateProfile(payload, accessToken))
               .then(unwrapResult)
