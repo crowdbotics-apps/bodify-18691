@@ -113,7 +113,7 @@ export default function ManualMeasurement({navigation}) {
             'jean_size': selectedItem,
             'fav_brands': data.fav_brands,
             'shopping_issue_one': issue_one,
-            'shopping_issue_one': issue_two,
+            'shopping_issue_two': issue_two,
             'user': profile?.id
           })
 
