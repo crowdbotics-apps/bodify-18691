@@ -17,11 +17,17 @@ import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 import { BASE_URL } from "../../utils/http"
 import { useNavigation } from "@react-navigation/native"
 import { logout } from "../../utils/redux/auth/actions"
+import { updateProfile, getProfile } from "../../utils/redux/app/actions"
 import { useDispatch, useSelector } from "react-redux"
+import { config, S3 } from "../../utils/constant"
+import fs from "react-native-fs"
+import { decode } from "base64-arraybuffer"
+import { unwrapResult } from "@reduxjs/toolkit"
 
 export default function Profile() {
   const navigation = useNavigation()
   const profile = useSelector(state => state.App.profile)
+  const accessToken = useSelector(state => state.Auth.accessToken)
   const dispatch = useDispatch()
   const onLogout = () => {
     dispatch(logout())
@@ -38,47 +44,49 @@ export default function Profile() {
     favs: false
   })
 
-  const captureImage = async type => {
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-      videoQuality: "low",
-      durationLimit: 30, //Video max duration in seconds
-      saveToPhotos: true
-    }
-    //let isCameraPermitted = await requestCameraPermission();
-    //let isStoragePermitted = await requestExternalWritePermission();
-    ////if (isCameraPermitted && isStoragePermitted) {
-    launchCamera(options, response => {
-      console.log("Response = ", response)
-      //console.log(response.assets[0].fileName);
+  console.log(profile, 'pro')
 
-      if (response.didCancel) {
-        alert("User cancelled camera picker")
-        return
-      } else if (response.errorCode == "camera_unavailable") {
-        alert("Camera not available on device")
-        return
-      } else if (response.errorCode == "permission") {
-        alert("Permission not satisfied")
-        return
-      } else if (response.errorCode == "others") {
-        alert(response.errorMessage)
-        return
-      }
-      //console.log('base64 -> ', response.base64);
-      //console.log('uri -> ', response.uri);
-      //console.log('width -> ', response.width);
-      // console.log('height -> ', response.height);
-      //console.log('fileSize -> ', response.fileSize);
-      // console.log('type -> ', response.type);
-      //console.log('fileName -> ', response.fileName);
-      setFilePath(response.assets[0])
-    })
-    //}
-  }
+  // const captureImage = async type => {
+  //   let options = {
+  //     mediaType: type,
+  //     maxWidth: 300,
+  //     maxHeight: 550,
+  //     quality: 1,
+  //     videoQuality: "low",
+  //     durationLimit: 30, //Video max duration in seconds
+  //     saveToPhotos: true
+  //   }
+  //   //let isCameraPermitted = await requestCameraPermission();
+  //   //let isStoragePermitted = await requestExternalWritePermission();
+  //   ////if (isCameraPermitted && isStoragePermitted) {
+  //   launchCamera(options, response => {
+  //     console.log("Response = ", response)
+  //     //console.log(response.assets[0].fileName);
+
+  //     if (response.didCancel) {
+  //       alert("User cancelled camera picker")
+  //       return
+  //     } else if (response.errorCode == "camera_unavailable") {
+  //       alert("Camera not available on device")
+  //       return
+  //     } else if (response.errorCode == "permission") {
+  //       alert("Permission not satisfied")
+  //       return
+  //     } else if (response.errorCode == "others") {
+  //       alert(response.errorMessage)
+  //       return
+  //     }
+  //     //console.log('base64 -> ', response.base64);
+  //     //console.log('uri -> ', response.uri);
+  //     //console.log('width -> ', response.width);
+  //     // console.log('height -> ', response.height);
+  //     //console.log('fileSize -> ', response.fileSize);
+  //     // console.log('type -> ', response.type);
+  //     //console.log('fileName -> ', response.fileName);
+  //     setFilePath(response.assets[0])
+  //   })
+  //   //}
+  // }
 
 
   const handleImageUpload = async () => {
@@ -112,90 +120,92 @@ export default function Profile() {
         }
 
         setFilePath(res.assets[0])
-        // Upload(file)
-        //   .then(response => {
-        //     const payload = {
-        //       token,
-        //       id: user.user_id,
-        //       profile_pic_url: response.Location
-        //     }
-        //     dispatch(updateProfilePhoto(payload))
-        //       .then(unwrapResult)
-        //       .then(res => {
-        //         setLoader(false)
-        //         Alert.alert("Image Uploaded Successfuly")
-        //       })
-        //       .catch(err => {})
-        //   })
-        //   .catch(err => {})
+        
+        Upload(file)
+          .then(response => {
+            console.log(response, 'pic')
+            const payload = {
+              profile_picture: response?.Location
+            }
+            dispatch(updateProfile(payload, accessToken))
+              .then(unwrapResult)
+              .then(res => {
+                console.log(res, 'profile')
+                Alert.alert("Image Uploaded Successfuly")
+                dispatch(getProfile())
+              })
+              .catch(err => { console.log(err) })
+          })
+          .catch(err => { console.log(err) })
       }
     })
   }
 
-  // const Upload = async file => {
-  //   const base64 = await fs.readFile(file.fPath, "base64")
-  //   const arrayBuffer = decode(base64)
-  //   const params = {
-  //     Bucket: config.Bucket,
-  //     Key: file.fName,
-  //     Body: arrayBuffer,
-  //     ContentDisposition: file.contentDeposition,
-  //     ContentType: file.contentType
-  //   }
+  const Upload = async file => {
+    const base64 = await fs.readFile(file.fPath, "base64")
+    const arrayBuffer = decode(base64)
+    const params = {
+      Bucket: config.Bucket,
+      Key: file.fName,
+      Body: arrayBuffer,
+      ContentDisposition: file.contentDeposition,
+      ContentType: file.contentType
+    }
 
-  //   return new Promise((resolve, reject) => {
-  //     S3.upload(params, (error, data) => {
-  //       if (error) {
-  //         reject(Alert.alert("Falied to Upload Image"))
-  //       }
-  //       resolve(data)
-  //     })
+    return new Promise((resolve, reject) => {
+      S3.upload(params, (error, data) => {
+        if (error) {
+          reject(Alert.alert("Falied to Upload Image"))
+        }
+        resolve(data)
+      })
+    })
+  }
+
+
+  // const handlePhoto = () => {
+  //   let body = JSON.stringify({
+  //     photo_front: filePath,
+  //     photo_side: filePath2,
+  //     user: 2
   //   })
+  //   console.log(body)
+  //   fetch(`${BASE_URL}/measurements/photo/`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: body
+  //   })
+  //     .then(res => {
+  //       if (res.ok) {
+  //         return res.json()
+  //       } else {
+  //         Alert.alert("Sorry!", "Unable to get measurements.", [
+  //           { text: "Okay" }
+  //         ])
+  //         throw res.json()
+  //       }
+  //     })
+  //     .then(json => {
+  //       navigation.navigate("Match")
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
   // }
 
-
-  const handlePhoto = () => {
-    let body = JSON.stringify({
-      photo_front: filePath,
-      photo_side: filePath2,
-      user: 2
-    })
-    console.log(body)
-    fetch(`${BASE_URL}/measurements/photo/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: body
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          Alert.alert("Sorry!", "Unable to get measurements.", [
-            { text: "Okay" }
-          ])
-          throw res.json()
-        }
-      })
-      .then(json => {
-        navigation.navigate("Match")
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ position: "absolute", top: "5%", right: "6%" }}>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             <Image source={require("../../assets/side.png")} />
           </TouchableOpacity>
         </View>
         {filePath.uri ? (
           <View style={{ marginTop: 40, marginLeft: 20 }}>
-            <Image source={{ uri: filePath.uri }} style={styles.imageStyle} />
+            <Image source={{ uri: profile?.profile_picture || filePath.uri }} style={styles.imageStyle} />
           </View>
         ) : (
           <View style={{ marginTop: 40, alignSelf: "center" }}>

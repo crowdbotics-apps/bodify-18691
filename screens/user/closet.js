@@ -23,7 +23,7 @@ export default function Closet({navigation}) {
   return (
       <View style={{flex: 1, backgroundColor: "#fff"}}>
         <SafeAreaView>
-             <Header2 />
+             <Header2 navs={navigation} />
              <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>My Closet</Text>

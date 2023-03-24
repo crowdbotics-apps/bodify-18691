@@ -11,8 +11,8 @@ import { logout } from '../../utils/redux/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 
-export default function About() {
-    const navigation = useNavigation();
+export default function About({navigation}) {
+    // const navigation = useNavigation();
     const dispatch = useDispatch()
     const onLogout = () => {
         dispatch(logout())
@@ -36,7 +36,7 @@ export default function About() {
       <View style={styles.container}>
           <SafeAreaView>
             <ScrollView showsVerticalScrollIndicator={false}>
-            <Header2/>
+            <Header2 navs={navigation}/>
      
             <View style={{marginTop: 20}}>
                 <View style={{flexDirection: "row"}}>

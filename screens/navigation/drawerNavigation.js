@@ -22,11 +22,13 @@ import FAQ from '../user/faq';
 const NEXT_SCREEN_HOME = "Home"
 
 const Drawer = createDrawerNavigator()
+
 export default function DrawerNavigation() {
 
     return (
         <Drawer.Navigator initialRouteName={NEXT_SCREEN_HOME}
         screenOptions={{headerShown: false}}
+        backBehavior="history"
         drawerContent={props => <SideMenu {...props}/>}>
         <Drawer.Screen name="Splash" component={Splash} />
         <Drawer.Screen name="Home" component={Home} />

@@ -43,14 +43,20 @@ function getSubscripeFees() {
 }
 
 function updateProfile({ profile, token }) {
+
+  // console.log(profile, token, 'update');
+
   const profileKeys = Object.keys(profile)
   const data = new FormData()
+  
   profileKeys.forEach(k => {
-    data.append(k, profile[k])
+    if(k === 'profile_picture')  data.append(k, profile[k], profile[k].name)
+    else data.append(k, profile[k])
   })
+
   return axios({
     method: "patch",
-    url: `${BASE_URL}/api/v1/accounts/profile/`,
+    url: `${BASE_URL}/api/users/profile/`,
     headers: {
       Authorization: `Token ${token}`,
       "Content-Type": "multipart/form-data"
@@ -64,12 +70,12 @@ function getMeasures({ data }) {
   image.append("front_img", {
     uri: data.front.uri,
     type: data.front.type,
-    name: "IMG_0006.jpeg"
+    name: data.front.name || "IMG_0006.jpeg"
   })
   image.append("side_img", {
     uri: data.back.uri,
     type: data.back.type,
-    name: "IMG_0007.jpeg"
+    name: data.back.name || "IMG_0007.jpeg"
   })
   // console.log(image)
   return axios({

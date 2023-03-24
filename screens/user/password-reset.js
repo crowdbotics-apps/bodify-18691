@@ -30,7 +30,7 @@ export default function PasswordReset({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <SafeAreaView>
-        <Header2 />
+        <Header2 navs={navigation} />
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>Re-enter{'\n'}New Password </Text>

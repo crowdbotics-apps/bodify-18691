@@ -12,7 +12,7 @@ export default function Terms({navigation, route}) {
   return (
       <View style={{flex: 1, backgroundColor: "#fff"}}>
         <SafeAreaView>
-             <Header2 showDrawer={route?.params?.root ? false : true} />
+             <Header2 navs={navigation} showDrawer={route?.params?.root ? false : true} />
              <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>Terms and {'\n'}Conditions</Text>

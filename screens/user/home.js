@@ -26,7 +26,7 @@ export default function Home({navigation}) {
   return (
       <View style={styles.container}>
         <SafeAreaView>
-             <Header />
+             <Header navs={navigation} />
             <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>Brand{"\n"}Partners </Text>
             <Text style={{fontSize: 16, color: '#979797', marginLeft: 20}}>We work with a lot of partners and are {"\n"}expanding daily. Want to know which brands {"\n"}are right for you?</Text>
