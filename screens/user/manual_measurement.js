@@ -144,7 +144,7 @@ export default function ManualMeasurement({navigation}) {
   return (
       <View style={styles.container}>
         <SafeAreaView>
-             <Header2 />
+             <Header2 navs={navigation} />
             <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.signText}>Enter{"\n"}My Measurements{"\n"}Manually </Text>
             <TouchableOpacity onPress={() => setShow(!show)}>

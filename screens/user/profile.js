@@ -199,7 +199,7 @@ export default function Profile() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ position: "absolute", top: "5%", right: "6%" }}>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             <Image source={require("../../assets/side.png")} />
           </TouchableOpacity>
         </View>

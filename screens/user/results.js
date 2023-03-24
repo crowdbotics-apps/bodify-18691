@@ -18,7 +18,7 @@ export default function Results({navigation}) {
   return (
       <View style={styles.container}>
         <SafeAreaView>
-             <Header />
+             <Header navs={navigation} />
              <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}>
                  <View>
                 <TouchableOpacity onPress={() => handleToggle('fit')}><Text style={{marginLeft: 20, color: show ? '#0078ED' : '#000'}}>Perfect Fit</Text></TouchableOpacity>

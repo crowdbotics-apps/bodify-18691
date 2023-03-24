@@ -70,7 +70,7 @@ export default function PhotoMeasurement({ navigation }) {
   return (
     <View style={styles.container}>
       <SafeAreaView>
-        <Header2 />
+        <Header2  navs={navigation} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.signText}>Photo{"\n"}Measurements </Text>
           <TouchableOpacity onPress={() => setShow(!show)}>
