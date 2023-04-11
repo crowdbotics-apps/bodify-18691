@@ -46,3 +46,10 @@ export const passConfirm = (values, navigation) => (
     values,
     navigation,
   });
+
+  export const passChange = (values, navigation) => (
+    {
+      type: actions.AUTH_PASSWORD_CHANGE_REQUEST,
+      values,
+      navigation,
+    });

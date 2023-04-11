@@ -18,7 +18,10 @@ import {
     AUTH_INSTAGRAM_LOGIN_REQUEST,
     AUTH_PASSWORD_RESET_SUCCESS,
     AUTH_PASSWORD_RESET_ERROR,
-    AUTH_PASSWORD_RESET_REQUEST
+    AUTH_PASSWORD_RESET_REQUEST,
+    AUTH_PASSWORD_CHANGE_SUCCESS,
+    AUTH_PASSWORD_CHANGE_ERROR,
+    AUTH_PASSWORD_CHANGE_REQUEST
   
   } from './constants';
   import { request, addTokenToHttp } from '../../http';
@@ -47,6 +50,10 @@ import {
   
   function sendPasswordRecovery (values) {
     return request.post('/api/users/password-reset/', values);
+  }
+
+  function sendPasswordChange(values) {
+    return request.post('/rest-auth/password/change/', values);
   }
   
   function *handleLogin (values) {
@@ -262,6 +269,39 @@ import {
       });
     }
   }
+
+
+  function *handlePasswordChange ({ values, navigation }) {
+    try {
+      const { status, data } = yield call(sendPasswordChange, values);
+  
+      if (status === 200) {
+        yield put({
+          type: AUTH_PASSWORD_CHANGE_SUCCESS,
+          values,
+        });
+
+        console.log(data, 'passchange');
+        // you can change the navigate for navigateAndResetStack to go to a protected route
+        Alert.alert(data.detail);
+        // navigation.navigate('TokenInput', { itemEmail: values })
+        //navigationActions.navigate('Login');
+      } else {
+        yield put({
+          type: AUTH_PASSWORD_CHANGE_ERROR,
+          error: 'Unknown Error',
+        });
+      }
+    } catch (error) { 
+      console.log('error.response :>> ', error.response);
+      const e = error?.response?.data?.email?.length > 0 ? error.response.data.email[0] : 'Something went wrong '
+      Alert.alert(e)
+      yield put({
+        type: AUTH_PASSWORD_CHANGE_ERROR,
+        error: 'Can\'t recover password with provided email',
+      });
+    }
+  }
   
   
   function *handleLogout () {
@@ -316,5 +356,6 @@ import {
     takeLatest(AUTH_SIGNUP_REQUEST, handleSignUp),
     takeLatest(AUTH_PASSWORD_RECOVER_REQUEST, handlePasswordRecovery),
     takeLatest(AUTH_PASSWORD_RESET_REQUEST, handleResetConfirm),
+    takeLatest(AUTH_PASSWORD_CHANGE_REQUEST, handlePasswordChange),
     takeLatest(AUTH_LOGOUT, handleLogout),
   ]);
