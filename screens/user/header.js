@@ -13,7 +13,7 @@ export default function Header({navs}) {
                 </TouchableOpacity>   
                 </View> 
                 <Image source= {require("../../assets/logo.png")}/>
-               <TouchableOpacity onPress={() => navs ? navs.toggleDrawer() : navigation.openDrawer()}><Image style={styles.nav} source= {require("../../assets/side.png")}/></TouchableOpacity>
+               <TouchableOpacity onPress={() => navs ? navs.toggleDrawer() : navigation.toggleDrawer()}><Image style={styles.nav} source= {require("../../assets/side.png")}/></TouchableOpacity>
             </View>
         </SafeAreaView>
     )

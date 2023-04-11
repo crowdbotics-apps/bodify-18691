@@ -69,15 +69,15 @@ function getMeasures({ data }) {
   const image = new FormData()
   image.append("front_img", {
     uri: data.front.uri,
-    type: data.front.type,
+    type: 'image/jpeg',
     name: data.front.name || "IMG_0006.jpeg"
   })
   image.append("side_img", {
     uri: data.back.uri,
-    type: data.back.type,
+    type: 'image/jpeg',
     name: data.back.name || "IMG_0007.jpeg"
   })
-  // console.log(image)
+  console.log(image)
   return axios({
     method: "post",
     url: `https://api.viubox.com:8001/imagesToMeasurements`,
