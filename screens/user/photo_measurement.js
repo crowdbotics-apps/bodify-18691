@@ -43,7 +43,7 @@ export default function PhotoMeasurement({ navigation }) {
     }
   }
 
-  const handlePhoto = () => {
+  const handlePhoto = async () => {
     if (!image || !image2) {
       Alert.alert(
         "Image Missing",
@@ -54,17 +54,24 @@ export default function PhotoMeasurement({ navigation }) {
         front: {
           uri: image.uri,
           type: image.type,
-          name: image.fileName
+          name: image.fileName,
+          contentDeposition: `inline;filename="${image.fileName}"`,
         },
         back: {
           uri: image2.uri,
           type: image2.type,
-          name: image2.fileName
+          name: image2.fileName,
+          contentDeposition: `inline;filename="${image2.fileName}"`,
         }
       }
-      // console.log(image_file)
+      console.log(image_file)
       setIsLoading(true)
-      dispatch(getMeasurement(image_file, navigation))
+      try {
+        dispatch(getMeasurement(image_file, navigation))
+        
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   return (

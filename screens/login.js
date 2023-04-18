@@ -22,9 +22,13 @@ import { facebookLogin, googleLogin, login } from "../utils/redux/auth/actions"
 import { useDispatch } from "react-redux"
 import SocialLogin from "../components/SocialLogin"
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 export default function Login({ navigation }) {
   const [errors, setErrors] = useState(null)
   const dispatch = useDispatch()
+
+  const [passwordVisibility, setPasswordVisibility] = useState(true)
   const [data, setData] = useState({
     email: "",
     password: ""
@@ -173,10 +177,28 @@ export default function Login({ navigation }) {
                 onChangeText={val => setData({ ...data, password: val })}
                 onEndEditing={e => handlePass(e.nativeEvent.text)}
                 autoCapitalize="none"
-                secureTextEntry={true}
+                secureTextEntry={passwordVisibility}
                 placeholder="*************"
                 placeholderTextColor="#000"
               />
+               {passwordVisibility ? <Icon name="eye" size={30} color="#000" 
+                        style={{
+                            left: 280,
+                            padding: 40,
+                            alignSelf: "center",
+                            position: "absolute"
+                            }}
+                            onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                        :
+                        <Icon name="eye-slash" size={30} color="#000" 
+                            style={{
+                                left: 280,
+                                padding: 40,
+                                alignSelf: "center",
+                                position: "absolute"
+                                }}
+                                onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                        }
             </View>
           </View>
 

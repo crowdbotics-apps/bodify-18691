@@ -12,20 +12,45 @@ import {
 import React, { useState } from "react"
 import Header2 from "./header2"
 import { BASE_URL } from "../../utils/http"
+import { useDispatch } from "react-redux"
+import { passChange } from "../../utils/redux/auth/actions"
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function PasswordReset({ navigation }) {
   const [errors, setErrors] = useState(null)
+  const dispatch = useDispatch()
   const [data, setData] = useState({
-    current: "",
-    new: "",
-    confirm_new: "",
+    old_password: "",
+    new_password1: "",
+    new_password2: "",
   });
+
+
+  const [passwordVisibility, setPasswordVisibility] = useState(true)
+  const [password1Visibility, setPassword1Visibility] = useState(true)
+  const [password2Visibility, setPassword2Visibility] = useState(true)
 
   const handleManual = () => {
     //navigation.navigate("Match")
-    console.log(data)
+    if(data.old_password && (data?.new_password1 === data?.new_password2))
     
+    dispatch(passChange(data, navigation))
+    // console.log(data)
   };
+
+  const handlePass = (val) => {
+    let reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+    if(val.length < 7) {
+        setErrors("Password must be 8 characters or more")
+        
+    } 
+    else if(reg.test(val) == false) {
+        setErrors("Password at least one letter, one number and one special characte")
+    }else  {
+        setErrors(null)
+    }
+}
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -37,42 +62,101 @@ export default function PasswordReset({ navigation }) {
             {errors ? <Text style={{color: 'red', alignSelf: 'center', marginBottom: 20}}>{errors}</Text>: null}
             <View style={styles.inputView}>
               <Text style={styles.label}>Current</Text>
+              <View style={{ flexDirection: "row" }}>
               <TextInput
                 style={styles.TextInput}
-                onChangeText={val => setData({ ...data, current: val })}
+                onChangeText={val => setData({ ...data, old_password: val })}
                 //onEndEditing={e => handlePass(e.nativeEvent.text)}
                 autoCapitalize="none"
-                secureTextEntry={true}
+                secureTextEntry={passwordVisibility}
                 placeholder="*************"
                 placeholderTextColor="#000"
               />
+               {passwordVisibility ? <Icon name="eye" size={30} color="#000" 
+                        style={{
+                            left: 280,
+                            padding: 40,
+                            alignSelf: "center",
+                            position: "absolute"
+                            }}
+                            onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                        :
+                        <Icon name="eye-slash" size={30} color="#000" 
+                            style={{
+                                left: 280,
+                                padding: 40,
+                                alignSelf: "center",
+                                position: "absolute"
+                                }}
+                                onPress={() => setPasswordVisibility(!passwordVisibility)}/>
+                        }
+                </View>
             </View>
             <View style={styles.inputView}>
               <Text style={styles.label}>New Password</Text>
+              <View style={{ flexDirection: "row" }}>
               <TextInput
                 style={styles.TextInput}
-                onChangeText={val => setData({ ...data, new: val })}
+                onChangeText={val => setData({ ...data, new_password1: val })}
                 //onEndEditing={e => handlePass(e.nativeEvent.text)}
                 autoCapitalize="none"
-                secureTextEntry={true}
+                secureTextEntry={password1Visibility}
                 placeholder="*************"
                 placeholderTextColor="#000"
               />
+              {password1Visibility ? <Icon name="eye" size={30} color="#000" 
+                        style={{
+                            left: 280,
+                            padding: 40,
+                            alignSelf: "center",
+                            position: "absolute"
+                            }}
+                            onPress={() => setPassword1Visibility(!password1Visibility)}/>
+                        :
+                        <Icon name="eye-slash" size={30} color="#000" 
+                            style={{
+                                left: 280,
+                                padding: 40,
+                                alignSelf: "center",
+                                position: "absolute"
+                                }}
+                                onPress={() => setPassword1Visibility(!password1Visibility)}/>
+                        }
+
+            </View>
             </View>
             <View style={styles.inputView}>
               <Text style={styles.label}>Password Confirmation</Text>
-              <TextInput
-                style={styles.TextInput}
-                onChangeText={val => setData({ ...data, confirm_new: val })}
-                onEndEditing={e => handlePass(e.nativeEvent.text)}
-                autoCapitalize="none"
-                secureTextEntry={true}
-                placeholder="*************"
-                placeholderTextColor="#000"
-              />
+              <View style={{ flexDirection: "row" }}>
+                <TextInput
+                  style={styles.TextInput}
+                  onChangeText={val => setData({ ...data, new_password2: val })}
+                  onEndEditing={e => handlePass(e.nativeEvent.text)}
+                  autoCapitalize="none"
+                  secureTextEntry={password2Visibility}
+                  placeholder="*************"
+                  placeholderTextColor="#000"
+                />
+                {password2Visibility ? <Icon name="eye" size={30} color="#000" 
+                        style={{
+                            left: 280,
+                            padding: 40,
+                            alignSelf: "center",
+                            position: "absolute"
+                            }}
+                            onPress={() => setPassword2Visibility(!password2Visibility)}/>
+                        :
+                        <Icon name="eye-slash" size={30} color="#000" 
+                            style={{
+                                left: 280,
+                                padding: 40,
+                                alignSelf: "center",
+                                position: "absolute"
+                                }}
+                                onPress={() => setPassword2Visibility(!password2Visibility)}/>
+                        }
+              </View>
             </View>
-
-
 
 
             <View style={styles.btn}>
